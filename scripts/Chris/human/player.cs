@@ -1,0 +1,138 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class player : MonoBehaviour
+{
+    public Animator playerAnim;
+    public Rigidbody playerRigid;
+    public float w_speed, rn_speed, ro_speed, wobj_speed;
+    public bool walk;
+    public bool walkobj;
+    public Transform playerTrans;
+
+
+    void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            playerRigid.velocity = transform.forward * w_speed * Time.deltaTime;
+        }
+
+    }
+    void Update()
+    {
+
+        //walking normally
+        walkobj = false;
+
+
+        if (walkobj == false)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                playerAnim.SetTrigger("walk");
+                playerAnim.ResetTrigger("idle");
+                walk = true;
+
+            }
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                playerAnim.ResetTrigger("walk");
+                playerAnim.SetTrigger("idle");
+                walk = false;
+
+            }
+        }
+
+
+
+        //roation either walking or carrying object
+      
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                playerTrans.Rotate(0, -ro_speed * Time.deltaTime, 0);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                playerTrans.Rotate(0, ro_speed * Time.deltaTime, 0);
+            }
+
+
+
+
+
+        //lifting oject f key hold
+
+        
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+
+                playerAnim.SetTrigger("liftup");
+                playerAnim.ResetTrigger("idle");
+                walkobj = true;
+
+
+
+            }
+
+
+        
+
+        
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            playerAnim.SetTrigger("liftup");
+            playerAnim.ResetTrigger("idle");
+            walkobj = true;
+
+        }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                playerAnim.SetTrigger("walkobj");
+                playerAnim.ResetTrigger("liftup");
+            
+        }
+
+
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                
+                playerAnim.SetTrigger("idlelift");
+                playerAnim.ResetTrigger("walkobj");
+
+            }
+
+        
+
+
+
+
+
+        if ( Input.GetKeyUp(KeyCode.F))
+        {
+          
+            playerAnim.SetTrigger("liftdown");
+            playerAnim.ResetTrigger("idle");
+            walkobj = false;
+
+        }
+
+
+
+      
+
+
+
+
+
+    }
+}
+
+
+
